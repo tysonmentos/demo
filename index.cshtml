@@ -1,61 +1,74 @@
-<!-- -----------------Index.html------------------
+-------------------Index.html------------------
 
-@model List<Project-Name.Models.Entity-Name>
 <html>
 <head>
-    <title>Demo</title>
-    <link href="~/lib/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" />
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.min.js"></script>
+	<title>Demo</title>
+	<link href="~/lib/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" />
+	<script src="~/lib/jquery/dist/jquery.min.js"></script>
+	<script src="~/lib/bootstrap/dist/js/bootstrap.min.js"></script>
 </head>
 <body class="container">
-    <a href="/Home/Create" class="btn btn-primary">Create New Record</a>
-    <hr />
-    <div class="table-responsive">
-        <table class="table table-bordered text-center">
-            <thead>
-                <tr>
-                    <th>
-                        No
-                    </th>
-                    <th>
-                        Name
-                    </th>
-                    <th>
-                        Address
-                    </th>
-                    <th>Edit</th>
-                    <th>Delete</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var item in Model)
-                {
-                    <tr>
-                        <td>@item.No</td>
-                        <td>@item.Name</td>
-                        <td>@item.Address</td>
-                        <td>
-                            <a class="btn btn-warning" href="/Home/Edit/@item.No">Edit</a>
-                        </td>
-                        <td>
-                            <a class="btn btn-danger" href="/Home/Delete/@item.No">Delete</a>
-                        </td>
-                    </tr>
-                }
-            </tbody>
-        </table>
-    </div>
+	<a href="/Home/Create" class="btn btn-primary">Create New Record</a>
+	<hr />
+	<div class="table-responsive">
+		<table class="table table-bordered text-center">
+			<thead>
+				<tr>
+					<th>
+						Id
+					</th>
+					<th>
+						Name
+					</th>
+					<th>
+						Address
+					</th>
+
+
+
+					<th>Email</th>
+
+					<th>Date</th>
+
+					<th>Edit</th>
+					<th>Delete</th>
+				</tr>
+			</thead>
+			<tbody>
+				@foreach (var item in Model)
+				{
+					<tr>
+						<td>@item.Id</td>
+						<td>@item.Name</td>
+						<td>@item.Address</td>
+						<td>@item.Email</td>
+						<td>@item.Date</td>
+
+						<td>
+							<a class="btn btn-warning" href="/Home/Edit/@item.Id">
+								Edit
+							</a>
+						</td>
+
+						<td>
+							<a class="btn btn-danger" href="/Home/Delete/@item.Id">
+								Delete
+							</a>
+						</td>
+					</tr>
+				}
+			</tbody>
+		</table>
+	</div>
 </body>
 </html>
 
 
 
 
-
 -----------------Create.html------------------
 
-@model Project-Name.Models.Entity-Name
+@model LabExam.Models.Emp
 <html>
 <head>
     <link href="~/lib/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" />
@@ -79,8 +92,7 @@
                         <td>Name:</td>
                         <td>
                             <input asp-for="Name" class="form-control" />
-                            <span asp-validation-for="Name"
-                                  class="text-danger"></span>
+                            <span asp-validation-for="Name" class="text-danger"></span>
                         </td>
                     </tr>
                     <tr>
@@ -89,10 +101,27 @@
                             <input asp-for="Address"
                                    class="form-control" />
 
-                            <span asp-validation-for="Address"
-                                  class="text-danger"></span>
+                            <span asp-validation-for="Address" class="text-danger"></span>
                         </td>
                     </tr>
+                    <tr>
+                        <td>Email:</td>
+                        <td>
+                            <input asp-for="Email" class="form-control" />
+
+                            <!-- ADDED : Validation Message for Email -->
+                            <span asp-validation-for="Email" class="text-danger"></span>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>Date:</td>
+                        <td>
+                            <input asp-for="Date" type="date" class="form-control" />
+                            <span asp-validation-for="Date" class="text-danger"></span>
+                        </td>
+                    </tr>
+
                     <tr>
                         <td colspan="2">
                             <button class="btn btn-success">
@@ -103,16 +132,15 @@
                 </tbody>
             </table>
         </div>
-    </form>
+    </form>    
 </body>
 </html>
 
 
 
-
 -----------------Edit.html------------------
 
-@model Project-Name.Models.Entity-Name
+@model LabExam.Models.Emp
 <html>
 <head>
     <title>Edit</title>
@@ -133,7 +161,7 @@
         <table class="table table-bordered">
             <tr>
                 <td colspan="2">
-                    <input asp-for="No" type="hidden" />
+                    <input asp-for="Id" type="hidden" />
                 </td>
             </tr>
             <tr>
@@ -153,6 +181,24 @@
                 </td>
             </tr>
             <tr>
+                <td>Email:</td>
+                <td>
+                    <input asp-for="Email" class="form-control" />
+
+                    <!-- ADDED : Validation Message for Email -->
+                    <span asp-validation-for="Email" class="text-danger"></span>
+                </td>
+            </tr>
+            <tr>
+                <td>Date:</td>
+                <td>
+                    <input asp-for="Date" type="date" class="form-control" />
+
+                    <!-- ADDED : Validation Message for Date -->
+                    <span asp-validation-for="Date" class="text-danger"></span>
+                </td>
+            </tr>
+            <tr>
                 <td colspan="2">
                     <button class="btn btn-success">
                         Update Record
@@ -162,4 +208,87 @@
         </table>
     </form>
 </body>
-</html> -->
+</html> 
+
+
+
+
+-----------------Controller------------------
+
+
+
+
+public IActionResult Index()
+{
+    return View("Index", db.Emps.ToList());
+}
+
+
+public IActionResult Create()
+{
+    return View();
+}
+
+public IActionResult AfterCreate(Emp emp)
+{
+   
+
+    db.Emps.Add(emp);
+    db.SaveChanges();
+    return Redirect("/Home/Index");
+}
+
+public IActionResult Edit(int? id)
+{
+    Emp empToBeEdited = db.Emps.Find(id);
+    return View(empToBeEdited);
+}
+
+
+public IActionResult AfterEdit(Emp empUpdated)
+{
+
+    Emp emptoChange = db.Emps.Find(empUpdated.Id);
+    emptoChange.Name = (empUpdated.Name);
+    emptoChange.Address = empUpdated.Address;
+
+    emptoChange.Email = empUpdated.Email;
+    emptoChange.Date = empUpdated.Date;
+    db.SaveChanges();
+    return Redirect("/Home/Index");
+
+}
+
+public IActionResult Delete(int? id)
+{
+    Emp empToDeleted = db.Emps.Find(id);
+    db.Emps.Remove(empToDeleted);
+    db.SaveChanges();
+    return Redirect("/Home/Index");
+}
+
+
+
+
+
+-----------------POJO Example------------------
+
+
+
+public partial class Emp
+{
+    public int Id { get; set; }
+
+    [Required(ErrorMessage = "Please enter employee name.")] 
+    public string? Name { get; set; }
+
+    [Required(ErrorMessage = "Please enter employee address.")]
+    public string? Address { get; set; }
+    [Required(ErrorMessage = "Please select date.")]
+   
+    public DateOnly? Date { get; set; }
+
+    [Required(ErrorMessage = "Please enter email address.")] 
+    [EmailAddress(ErrorMessage = "Please enter a valid email address.")] 
+    public string? Email { get; set; }
+}
