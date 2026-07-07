@@ -1,0 +1,165 @@
+<!-------------------Index.html-------------------->
+
+@model List<Project-Name.Models.Entity-Name>
+<html>
+<head>
+    <title>Demo</title>
+    <link href="~/lib/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.min.js"></script>
+</head>
+<body class="container">
+    <a href="/Home/Create" class="btn btn-primary">Create New Record</a>
+    <hr />
+    <div class="table-responsive">
+        <table class="table table-bordered text-center">
+            <thead>
+                <tr>
+                    <th>
+                        No
+                    </th>
+                    <th>
+                        Name
+                    </th>
+                    <th>
+                        Address
+                    </th>
+                    <th>Edit</th>
+                    <th>Delete</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@item.No</td>
+                        <td>@item.Name</td>
+                        <td>@item.Address</td>
+                        <td>
+                            <a class="btn btn-warning" href="/Home/Edit/@item.No">Edit</a>
+                        </td>
+                        <td>
+                            <a class="btn btn-danger" href="/Home/Delete/@item.No">Delete</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>
+
+
+
+
+
+<!-------------------Create.html-------------------->
+
+@model Project-Name.Models.Entity-Name
+<html>
+<head>
+    <link href="~/lib/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+    <title>Create</title>
+</head>
+<body class="container">
+    <a href="/Home/Index" class="btn btn-primary">
+        Go Back
+    </a>
+    <hr />
+    <form method="post" action="/Home/AfterCreate">
+        <div class="table-responsive">
+            <table class="table table-bordered text-center">
+                <tbody>
+
+                    <tr>
+                        <td>Name:</td>
+                        <td>
+                            <input asp-for="Name" class="form-control" />
+                            <span asp-validation-for="Name"
+                                  class="text-danger"></span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Address:</td>
+                        <td>
+                            <input asp-for="Address"
+                                   class="form-control" />
+
+                            <span asp-validation-for="Address"
+                                  class="text-danger"></span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            <button class="btn btn-success">
+                                Add Record
+                            </button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </form>
+</body>
+</html>
+
+
+
+
+<!-------------------Edit.html-------------------->
+
+@model Project-Name.Models.Entity-Name
+<html>
+<head>
+    <title>Edit</title>
+    <link href="~/lib/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+</head>
+<body class="container">
+    <a href="/Home/Index" class="btn btn-primary">
+        Go Back
+    </a>
+    <hr />
+    <form method="post" action="/Home/AfterEdit">
+        <div asp-validation-summary="All"
+             class="text-danger">
+        </div>
+        <table class="table table-bordered">
+            <tr>
+                <td colspan="2">
+                    <input asp-for="No" type="hidden" />
+                </td>
+            </tr>
+            <tr>
+                <td>Name:</td>
+                <td>
+                    <input asp-for="Name" class="form-control" />
+                    <span asp-validation-for="Name"
+                          class="text-danger"></span>
+                </td>
+            </tr>
+            <tr>
+                <td>Address:</td>
+                <td>
+                    <input asp-for="Address" class="form-control" />
+                    <span asp-validation-for="Address"
+                          class="text-danger"></span>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <button class="btn btn-success">
+                        Update Record
+                    </button>
+                </td>
+            </tr>
+        </table>
+    </form>
+</body>
+</html>
