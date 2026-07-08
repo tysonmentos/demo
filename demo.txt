@@ -1,0 +1,564 @@
+﻿Shell command
+
+
+1. mkdir shell_demo
+2. cd shell_demo/
+3. chmod u+x student_menu.sh    -Give execute permission only to the owner (user).
+4. ./student_menu.sh     -to run file
+
+
+
+
+
+
+//extra command for file
+chmod +x file.sh
+	Give execute permission to everyone (owner, group, others) based on current permissions.
+	
+
+chmod u+x file.sh
+	Give execute permission only to the owner (user).
+	
+
+chmod g+x file.sh
+	Give execute permission only to the group.
+	
+
+chmod o+x file.sh
+	Give execute permission only to others.
+	
+
+chmod a+x file.sh
+	Give execute permission to all (same effect as +x).
+	
+
+
+
+sudo apt install ncal       for calender show 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+1. Write a menu based script which displays the following options :
+* Accept roll number, name, marks in sub1, sub2 and sub3. Calculate total, percentage, grade & class and enter the record in a file “student”. The marks are out of 100 in each subject. Allow the user to enter any number of records.
+
+
+*                    Grade is found out as follows :
+*                 Percentage                 Grade
+*                 < 35                                Fail
+*                 >= 35 & < 50                Third
+*                 >= 50 & < 60                Second
+*                 >= 60 & < 75                First
+*                 >= 75                         Distn
+
+
+*                     If the student secures < 35 in any one of the subjects, then class = “fail”.         Otherwise     
+*                         class=”pass”.
+
+
+
+
+
+
+
+
+#!/bin/bash
+
+
+# Function to calculate grade
+calculate_grade() {
+    if (( $1 < 35 )); then
+        grade="Fail"
+    elif (( $1 < 50 )); then
+        grade="Third"
+    elif (( $1 < 60 )); then
+        grade="Second"
+    elif (( $1 < 75 )); then
+        grade="First"
+    else
+        grade="Distn"
+    fi
+}
+
+
+# Function to calculate class
+calculate_class() {
+    if (( $1 < 35 || $2 < 35 || $3 < 35 )); then
+        class="Fail"
+    else
+        class="Pass"
+    fi
+}
+
+
+# Function to display menu
+display_menu() {
+    echo "==============================="
+    echo "      STUDENT MENU"
+    echo "==============================="
+    echo "1. Enter Student Record"
+    echo "2. Display Student Records"
+    echo "3. Exit"
+    echo "==============================="
+}
+
+
+# Function to enter student record
+enter_record() {
+    read -p "Enter Roll Number: " roll_number
+    read -p "Enter Name: " name
+    read -p "Enter Marks in Subject 1: " sub1
+    read -p "Enter Marks in Subject 2: " sub2
+    read -p "Enter Marks in Subject 3: " sub3
+
+
+    total=$((sub1 + sub2 + sub3))
+    percentage=$((total / 3))
+
+
+    calculate_grade $percentage
+    calculate_class $sub1 $sub2 $sub3
+
+
+    echo "$roll_number | $name | $sub1 | $sub2 | $sub3 | $total | $percentage | $grade | $class" >> student
+
+
+    echo "Record added successfully."
+}
+
+
+# Function to display student records
+display_records() {
+    if [ -f student ]; then
+        echo
+        echo "Roll | Name | Sub1 | Sub2 | Sub3 | Total | % | Grade | Class"
+        echo "--------------------------------------------------------------"
+        cat student
+    else
+        echo "No records found."
+    fi
+}
+
+
+# Main Program
+while true
+do
+    display_menu
+    read -p "Enter your choice: " choice
+
+
+    case $choice in
+        1) enter_record ;;
+        2) display_records ;;
+        3) echo "Exiting Program..."
+           exit ;;
+        *) echo "Invalid Choice!" ;;
+    esac
+Done
+
+
+
+
+
+
+
+
+/////////////////
+* Write a bash script to take input string from user.  Print output as follows. 
+*         a) If all the characters in input string is upper case, print “Input String is in UPPER case”
+*         b) If all the characters in input string is lower case, print “Input String is in LOWER case”
+*         c) else print “Input String is in MIXED case”
+#!/bin/bash
+# Accept input string from user
+echo "Enter a string:"
+read str
+
+
+# Check if the string is all uppercase
+if [[ "$str" == "${str^^}" && "$str" != "${str,,}" ]]; then
+    echo "Input String is in UPPER case"
+
+
+# Check if the string is all lowercase
+elif [[ "$str" == "${str,,}" && "$str" != "${str^^}" ]]; then
+    echo "Input String is in LOWER case"
+
+
+# Otherwise, it is mixed case
+else
+    echo "Input String is in MIXED case"
+Fi
+
+
+/////////////
+* Write a bash script to take input Number as upper limit from user.  
+*         a) Print the PID of the current script
+*         b) Print the Numbers in reverse till we reach zero 
+*                 e.g: If the user enters 5, print the numbers as below in separate lines
+*                         5
+*                         4
+*                         3
+*                         2
+*                         1 
+*         c) Input Number range is greater than 1 and less than 100
+*         d) If user inputs number less than 1 or more than 100 print message “Input Number is Out of range”
+
+
+#!/bin/bash
+# Print the PID of the current script
+echo "Current Script PID: $$"
+# Read the upper limit
+echo "Enter a number (2-99):"
+read num
+
+
+# Check the range
+if [ $num -le 1 ] || [ $num -ge 100 ]; then
+    echo "Input Number is Out of range"
+else
+    echo "Numbers in reverse:"
+    while [ $num -gt 0 ]
+    do
+        echo $num
+        num=$((num-1))
+    done
+Fi
+/////////////////////////
+* Write a bash script to take two input string from user. Print the output as follows 
+*         a) If the input string 1 and input String 2 matches, Print “The TWO STRING matches”. The match should not be case sensitive. Means Input String 1 is  “SPARK” and input 2 string is “Spark”, still it should print “The TWO STRING matches”.
+*         b) If the input string 1 and input String 2 does not match, Print “The TWO STRING DOES NOT match”
+#!/bin/bash
+
+
+# Read first string
+echo "Enter First String:"
+read str1
+
+
+# Read second string
+echo "Enter Second String:"
+read str2
+
+
+# Compare strings (case-insensitive)
+if [ "${str1,,}" = "${str2,,}" ]; then
+    echo "The TWO STRING matches"
+else
+    echo "The TWO STRING DOES NOT match"
+Fi
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+a) Rename a file from application.jsp to application.html
+mv application.jsp application.html
+b) Find a process running with PID 2391
+sanket@sanket-virtualbox:~$ pidof bash
+ps -fp 2431
+c) Print the first 15 lines from content.txt
+head -n 15 content.txt
+d) Find files with the name java.cpp within the current folder and its subfolders
+find . -type f -name "java.cpp"
+e)Create a group named tester
+sudo groupadd tester
+
+
+
+
+
+
+1. Give all permissions (Read, Write, Execute) to the owner
+chmod u+rwx filename
+2. Give execute permission to the owner
+chmod u+x filename
+3. Give read permission
+chmod u+r filename
+
+
+4. Give write permission
+chmod u+w filename
+
+
+5. Give permissions to everyone (owner, group, others)
+chmod a+rwx filename
+
+
+
+
+
+
+chmod 777 filename
+	Read, Write, Execute for everyone
+	
+
+chmod 755 filename
+	Owner: rwx, Group: r-x, Others: r-x
+	
+
+chmod 744 filename
+	Owner: rwx, Group: r--, Others: r--
+	
+
+chmod 700 filename
+	Owner: rwx only
+	
+
+chmod 644 filename
+	Owner: rw-, Group: r--, Others: r--
+	
+
+7. Check current permissions
+ls -l filename
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Common Commands for Practical Exams
+# Give execute permission
+chmod +x file.sh
+
+
+# Give execute permission only to the owner
+chmod u+x file.sh
+
+
+# Give read, write, execute to the owner
+chmod u+rwx file.sh
+
+
+# Remove execute permission
+chmod -x file.sh
+
+
+# Set permission to rwxr-xr-x
+chmod 755 file.sh
+
+
+# Check permissions
+ls -l file.sh
+
+
+
+
+
+
+1. Nginx with Docker Volume
+Install Docker
+sudo apt update
+sudo apt upgrade -y
+sudo apt install docker.io -y
+sudo systemctl enable docker
+sudo systemctl status docker
+docker --version
+Add current user to Docker group
+sudo usermod -aG docker $USER
+newgrp docker
+Pull Nginx Image
+docker pull nginx
+docker images
+Create Web Page
+mkdir webpages
+cd webpages
+echo "Hi from CDAC" > index.html
+cat index.html
+cd ..
+Run Nginx with Volume Mapping
+docker run -d \
+--name another-nginx \
+-p 8080:80 \
+-v $(pwd)/webpages:/usr/share/nginx/html \
+nginx
+Check Running Containers
+docker ps
+Open Browser
+http://localhost:8080
+Stop Container
+docker stop another-nginx
+________________
+
+
+
+
+2. Nginx Without Volume
+Create HTML File
+mkdir mysite
+cd mysite
+echo "Hi CDAC" > index.html
+Run Nginx
+docker run -d \
+--name simple-nginx \
+-p 8080:80 \
+nginx
+Copy File into Container
+docker cp index.html simple-nginx:/usr/share/nginx/html/index.html
+Open Browser
+http://localhost:8080
+________________
+
+
+3. Nginx with Default Image
+docker pull nginx
+docker images
+docker run -d --name mynginx -p 8080:80 nginx
+________________
+
+
+
+
+4. Simple GitHub Practical
+Clone Repository
+git clone <repository-url>
+Open Repository
+cd <repository-name>
+Create/Edit File
+nano index.txt
+Stage Changes
+git add .
+Check Status
+git status
+Commit Changes
+git commit -m "demo done"
+Push to GitHub
+git push origin main
+Username: GitHub Username
+Password: Personal Access Token (PAT)
+________________
+
+
+5. Git Merge Conflict Practical
+Clone Repository
+git clone <repository-url>
+cd <repository-name>
+Create Feature Branch 1
+git checkout -b feature1
+echo "First line" > demo.txt
+git add .
+git commit -m "feature1 branch"
+Switch to Main
+git checkout main
+Create Feature Branch 2
+git checkout -b feature2
+echo "Feature2 branch" > demo.txt
+git add .
+git commit -m "branch feature2"
+Return to Main
+git checkout main
+Merge Branches
+git merge feature1
+git merge feature2
+Resolve Conflict
+cat demo.txt
+Edit the file and remove conflict markers:
+<<<<<<< HEAD
+First line
+=======
+Feature2 branch
+>>>>>>> feature2
+Make it like:
+First line
+Feature2 branch
+Then:
+git add demo.txt
+git commit -m "resolve conflict"
+git push origin main
+git status
+
+
+
+
+6. Linux Group Commands
+View Existing Groups
+groups
+Create a Group
+sudo groupadd marketing
+getent group marketing
+Rename Group
+sudo groupmod -n sales marketing
+Add User to Group
+sudo usermod -aG marketing sanket
+Add Multiple Users to Group
+sudo gpasswd -a bob marketing
+Repeat for more users:
+sudo gpasswd -a alice marketing
+sudo gpasswd -a john marketing
+Remove User from Group
+sudo gpasswd -d bob marketing
+Delete Group
+sudo groupdel sales
+________________
