@@ -1,8 +1,9 @@
 ﻿********************************Shell command****************************************
 1. mkdir shell_demo
 2. cd shell_demo/
-3. chmod u+x student_menu.sh    -Give execute permission only to the owner (user).
-4. ./student_menu.sh     -to run file
+3. nano student_menu.sh
+4. chmod u+x student_menu.sh    //Give execute permission only to the owner (user).
+5. ./student_menu.sh     -to run file
 
 /////////////////////////////////////////////////////////////////////////////////////
 
