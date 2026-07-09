@@ -412,8 +412,12 @@ docker cp index.html simple-nginx:/usr/share/nginx/html/index.html
 
 ##Docker login
 docker login
+
 ##Enter username
 ##Enter password
+
+##Docker commit
+docker commit <image-name> <username>/<image-name>:latest
 
 ##Push on docker
 docker push <username>/<image-name>
