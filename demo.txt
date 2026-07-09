@@ -150,7 +150,7 @@ do
            exit ;;
         *) echo "Invalid Choice!" ;;
     esac
-Done
+done
 
 
 
