@@ -549,11 +549,13 @@ CMD ["java", "index"]
 
 
 
-docker build -t sanket9850/my-java-app .
+docker build -t username/my-java-app .
 
-docker run --rm sanket9850/my-java-app
+docker run --rm username/my-java-app
 
-docker push sanket9850/my-java-app
+docker login -u username
+
+docker push username/my-java-app
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
