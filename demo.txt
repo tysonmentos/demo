@@ -530,3 +530,27 @@ sudo gpasswd -d bob marketing
 
 ##Delete Group
 sudo groupdel sales
+
+///////////////////////////////////////////
+
+nano index.java
+nano Dockerfile
+
+FROM eclipse-temurin:17-jdk
+
+WORKDIR /app
+
+
+COPY index.java .
+
+RUN javac index.java
+
+CMD ["java", "index"]
+
+
+
+docker build -t sanket9850/my-java-app .
+
+docker run --rm sanket9850/my-java-app
+
+docker push sanket9850/my-java-app
