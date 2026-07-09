@@ -554,3 +554,44 @@ docker build -t sanket9850/my-java-app .
 docker run --rm sanket9850/my-java-app
 
 docker push sanket9850/my-java-app
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+git init conflict-lab
+cd conflict-lab
+echo "This line is the same" > conflict.txt
+git add conflict.txt
+git commit -m "Initial commit"
+
+# Branch 1: Make a change
+git checkout -b branch1
+echo "Change from branch 1" > conflict.txt
+git commit -am "Commit from branch 1"
+
+# Go back to main and create branch 2
+git checkout main
+git checkout -b branch2
+echo "Change from branch 2" > conflict.txt
+git commit -am "Commit from branch 2"
+
+
+git checkout main
+git merge branch1
+# (This succeeds as main matches branch1)
+
+# Now merge branch2, which causes the conflict
+git merge branch2
+
+# View the history to see the diverging paths
+git log --oneline --graph --all
+
+
+cat.conflict.txt
+
+
+<<<<<<< HEAD
+Change from branch 1
+=======
+Change from branch 2
+>>>>>>> branch2
